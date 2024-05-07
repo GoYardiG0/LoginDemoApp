@@ -85,5 +85,32 @@ namespace LoginDemoApp.Services
             }
         }
 
+        public async Task<User> GetFullUserObject()
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}GetGrades";
+            try
+            {
+                //Call the server API
+                HttpResponseMessage response = await client.GetAsync(url);
+                //Check status
+                if (response.IsSuccessStatusCode)
+                {
+                    //Extract the content as string
+                    string json = await response.Content.ReadAsStringAsync() ;
+                    User u = JsonSerializer.Deserialize<User>(json);
+                    return u;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
     }
 }

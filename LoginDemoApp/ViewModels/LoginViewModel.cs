@@ -18,6 +18,7 @@ namespace LoginDemoApp.ViewModels
             this.service = service;
             this.LoginCommand = new Command(OnLogin);
             this.CheckCommand = new Command(OnCheck);
+            GetGradesCommand = new Command(OnGetGrades);
         }
 
         public ICommand LoginCommand { get; set; }
@@ -60,6 +61,26 @@ namespace LoginDemoApp.ViewModels
 
             await Application.Current.MainPage.DisplayAlert("Check", str, "ok");
             
+        }
+        public ICommand GetGradesCommand { get; set; }
+        private async void OnGetGrades()
+        {
+            //Choose the way you want to blobk the page while indicating a server call
+            InServerCall = true;
+            string str;
+             if(await this.service.GetFullUserObject()== null)
+            {
+                str = "bad";
+            }
+            else
+            {
+                str = "good";
+            }
+
+            InServerCall = false;
+
+            await Application.Current.MainPage.DisplayAlert("Check", str, "ok");
+
         }
 
 
